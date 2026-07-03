@@ -1,0 +1,11 @@
+int binPow(int b, int p){
+    int res = 1;
+    while(p>0){
+        if(p&1){
+            res*=b;
+        }
+        p>>=1;
+        b = b*b;
+    }
+    return res;
+}

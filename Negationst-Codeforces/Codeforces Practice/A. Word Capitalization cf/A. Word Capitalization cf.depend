@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1722541605 source:c:\c++ learning projects\a. word capitalization cf\main.cpp
+	<iostream>
+	<cctype>
+

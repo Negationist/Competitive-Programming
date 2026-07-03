@@ -1,0 +1,99 @@
+#include <bits/stdc++.h>
+#define int long long
+#define pb push_back
+#define ff first
+#define ss second
+#define pii pair<int,int>
+#define vi vector<int>
+#define vii vector<pair<int,int>>
+
+using namespace std;
+using ll = long long;
+using ld = long double;
+
+ll op(ll a, ll b){
+    return a+b;
+}
+
+template <typename T>
+struct BoundedSegtree {
+    ll L, R, n;
+    std::vector<T> tree;
+    std::function<T(T, T)> merge;
+    T identity;
+    BoundedSegtree(std::function<T(T, T)> merge_op, T id, ll left, ll right)
+        : L(left), R(right), n(right - left + 1), merge(merge_op), identity(id) {
+            assert(L<=R);
+            tree.assign(4LL << __lg(n), identity);
+        }
+    ll idx(ll x) const { return x - L; }
+    void set(ll x, T v) {
+        assert(L<=x && x<=R);
+        set(1, 0, n - 1, idx(x), v);
+    }
+    void add(ll x, T delta) {
+        assert(L <= x && x <= R);
+        add(1, 0, n - 1, idx(x), delta);
+    }
+    T query(ll ql, ll qr) const {
+        if (qr < ql) return identity;
+        return query(1, 0, n - 1, idx(ql), idx(qr));
+    }
+    void build(const std::vector<T>& data) {
+        assert((ll)data.size() <= n);
+        build(1, 0, n - 1, data);
+    }
+    void set(ll p, ll l, ll r, ll i, T v) {
+        if (l == r) { tree[p] = v; return; }
+        ll m = (l + r) >> 1;
+        (i <= m ? set(p << 1, l, m, i, v)
+                : set(p << 1 | 1, m + 1, r, i, v));
+        tree[p] = merge(tree[p << 1], tree[p << 1 | 1]);
+    }
+    void add(ll p, ll l, ll r, ll i, T delta) {
+        if (l == r) {
+            tree[p] = merge(tree[p], delta);
+            return;
+        }
+        ll m = (l + r) >> 1;
+        (i <= m ? add(p << 1, l, m, i, delta)
+                : add(p << 1 | 1, m + 1, r, i, delta));
+        tree[p] = merge(tree[p << 1], tree[p << 1 | 1]);
+    }
+    T query(ll p, ll l, ll r, ll ql, ll qr) const {
+        if (qr < l || r < ql)   return identity;
+        if (ql <= l && r <= qr) return tree[p];
+        ll m = (l + r) >> 1;
+        return merge(query(p << 1,     l, m, ql, qr),
+                     query(p << 1 | 1, m+1, r, ql, qr));
+    }
+    void build(ll p, ll l, ll r, const std::vector<T>& data) {
+        if (l == r) {
+            tree[p] = (l<(ll)(data.size())?data[l]:identity); return;
+        }
+        ll m = (l + r) >> 1;
+        build(p << 1, l, m, data);
+        build(p << 1 | 1, m + 1, r, data);
+        tree[p] = merge(tree[p << 1], tree[p << 1 | 1]);
+    }
+};
+
+void solve(){
+    BoundedSegtree<int> tree(op,0LL,-1e4,1e4);
+    for(int i=-107;i<=1772;i++){
+        tree.add(i,10);
+    }
+    cout << tree.query(-107,1772) << "\n";
+}
+
+signed main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int t;
+    cin >> t;
+    while(t--){
+        solve();
+    }
+    return 0;
+}

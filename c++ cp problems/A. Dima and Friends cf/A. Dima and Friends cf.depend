@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1722624728 source:c:\c++ learning projects\a. dima and friends cf\main.cpp
+	<iostream>
+	<vector>
+

@@ -1,0 +1,45 @@
+void compute(){
+    int x = 1000,a = 24693, c = 3517, k = (1<<17);
+    cout << fixed << setprecision(10);
+    double u;
+    auto run = [&]()->void{
+        for(int i=0;i<30;i++){
+            x = (a*x+c)%k;
+        }
+        u = (double)(x)/k;
+    };
+    vector<double> w;
+    vector<double> f(3);
+    f[0] = 0.2; f[1] = 0.5; f[2] = 1;
+    for(int i=0;i<500;i++){
+        int inc = 0;
+        double val = 0;
+        while(inc<4){
+            run();
+            val+=7; //6 to start a call + 1 to end it = 7
+            int pos = lower_bound(f.begin(),f.end(),u)-f.begin();
+            if(pos==0){
+                val+=3;
+                ++inc;
+            } else if(pos==1){
+                val+=25;
+                ++inc;
+            } else{
+                run();
+                double X = -12*log(1-u);
+                if(X>25){
+                    val+=25;
+                    ++inc;
+                } else{
+                    val+=X;
+                    break;
+                }
+            }
+        }
+        w.pb(val);
+    }
+    sort(w.begin(),w.end());
+    for(double num : w){
+        cout << num << "\n";
+    }
+}

@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1722488048 source:c:\c++ learning projects\borze cf\main.cpp
+	<iostream>
+	<regex>
+	<string>
+

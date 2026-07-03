@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1722567362 source:c:\c++ learning projects\b. drinks cf\main.cpp
+	<iostream>
+	<vector>
+

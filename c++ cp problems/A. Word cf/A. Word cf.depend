@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1722540982 source:c:\c++ learning projects\a. word cf\main.cpp
+	<iostream>
+	<cctype>
+

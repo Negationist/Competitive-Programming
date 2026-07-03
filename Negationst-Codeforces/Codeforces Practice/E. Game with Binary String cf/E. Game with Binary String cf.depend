@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1740674042 source:c:\c++ learning projects\e. game with binary string cf\main.cpp
+	<bits/stdc++.h>
+	<ext/pb_ds/assoc_container.hpp>
+	<ext/pb_ds/tree_policy.hpp>
+

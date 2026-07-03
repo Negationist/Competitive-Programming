@@ -1,0 +1,10 @@
+void compute(){
+    fact[0] = fact[1] = 1;
+    for(int i=2;i<maxN;i++){
+        fact[i] = (fact[i-1]*i)%mod;
+    }
+    factInv[maxN-1] = modInv(fact[maxN-1],mod);
+    for(int i=maxN-2;i>=0;i--){
+        factInv[i] = (factInv[i+1]*(i+1))%mod;
+    }
+}

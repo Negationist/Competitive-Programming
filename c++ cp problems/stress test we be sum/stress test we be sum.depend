@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1739777088 source:c:\c++ learning projects\stress test we be sum\main.cpp
+	<iostream>
+	<sstream>
+	<vector>
+	<stack>
+	<random>
+	<chrono>
+	<algorithm>
+	<climits>
+

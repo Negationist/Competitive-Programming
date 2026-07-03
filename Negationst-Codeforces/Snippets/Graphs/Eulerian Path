@@ -1,0 +1,58 @@
+int n;
+cin >> n;
+map<int,set<int>> adj;
+pii gone;
+set<int> u;
+for(int i=0;i<n;i++){
+    int a,b;
+    cin >> a >> b;
+    adj[a].insert(b);
+    adj[b].insert(a);
+    u.insert(a);
+    u.insert(b);
+    gone = {a,b};
+}
+int odd = 0, index;
+for(auto x : adj){
+    int z = x.ss.size();
+    if(z&1){
+        ++odd;
+        index = x.ff;
+    }
+}
+int cnt = 0;
+map<int,int> visited;
+auto dfs = [&](auto self, int x)->void{
+    visited[x] = 1;
+    ++cnt;
+    for(int y : adj[x]){
+        if(!visited[y]){
+            self(self,y);
+        }
+    }
+};
+dfs(dfs,gone.ff);
+bool connected = (cnt==(int)u.size());
+if(odd>2 || !connected){
+    //failure
+} else{
+    if(!odd){
+        index = gone.ff;
+        adj[gone.ff].erase(gone.ss);
+        adj[gone.ss].erase(gone.ff);
+    }
+    stack<int> st;
+    st.push(index);
+    vi ans; //holds the path
+    while(st.size()){
+        int x = st.top();
+        if(adj[x].size()==0){
+            ans.pb(x);
+            st.pop();
+        } else{
+            st.push(*adj[x].begin());
+            adj[x].erase(st.top());
+            adj[st.top()].erase(x);
+        }
+    }
+}

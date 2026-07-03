@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1722276811 source:c:\c++ learning projects\1strealproject\main.cpp
+	<bits/stdc++.h>
+
+1721695930 c:\c++ learning projects\1strealproject\myclass.h
+
+1721695930 source:c:\c++ learning projects\1strealproject\myclass.cpp
+	"MyClass.h"
+	<iostream>
+

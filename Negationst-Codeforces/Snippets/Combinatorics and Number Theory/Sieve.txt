@@ -1,0 +1,12 @@
+int sieve[maxN] = {};
+ 
+void compute(){
+    for(int i=2;i<maxN;i++) sieve[i] = i;
+    for(int i=2;i<maxN;i++){
+        if(sieve[i]==i){
+            for(int j=i;j<maxN;j+=i){
+                sieve[j] = i;
+            }
+        }
+    }
+}

@@ -1,0 +1,69 @@
+enum QueryType {};
+
+struct Tag{
+
+};
+
+struct Info{
+    Info(){
+
+    };
+    void apply(const Tag &t){
+
+    }
+
+    friend Info operator+(const Info &a, const Info &b) {
+        return Info();
+    }
+};
+
+template <typename Info, typename Tag>
+struct segTree {
+    int n;
+    vector<Info> tree;
+    segTree(int n){
+        this->n = n;
+        tree.assign(4 << __lg(n), Info());
+    }
+    segTree(const vector<Info> &a){
+        n = a.size();
+        tree.assign(4 << __lg(n), Info());
+        build(1,0,n-1,a);
+    }
+    void build(int x, int l, int r, vector<Info> &a) {
+        if(l==r){
+            tree[x] = a[l];
+        } else{
+            int m = (l + r) / 2;
+            build(2 * x, l, m, a);
+            build(2 * x + 1, m + 1, r, a);
+            tree[x] = tree[2*x] + tree[2 * x + 1];
+        }
+    }
+    void update(int x, int l, int r, int i, Tag v) {
+        if (l == r) {
+            tree[x].apply(v);
+            return;
+        }
+        int m = (l + r) / 2;
+        if (i <= m){
+           update(2 * x, l, m, i, v);
+        }
+        else{
+            update(2 * x + 1, m + 1, r, i, v);
+        }
+        tree[x] = tree[2*x] + tree[2 * x + 1];
+    }
+    void update(int i, Tag v) {
+        update(1, 0, n - 1, i, v);
+    }
+    Info query(int x, int l, int r, int ql, int qr) {
+        if (qr < l || ql > r) return Info();
+        if (ql <= l && r <= qr) return tree[x];
+        int m = (l + r) / 2;
+        return query(2 * x, l, m, ql, qr) + query(2 * x + 1, m + 1, r, ql, qr);
+    }
+    Info query(int l, int r) {
+        return query(1, 0, n - 1, l, r);
+    }
+};

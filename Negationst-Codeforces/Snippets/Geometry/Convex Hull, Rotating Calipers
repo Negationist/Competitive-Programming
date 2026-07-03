@@ -1,0 +1,156 @@
+template<typename T>
+int sign(T x){
+    if(x<0){
+        return -1;
+    } else if(x>0){
+        return 1;
+    } else return 0;
+}
+
+template<typename T>
+struct Point {
+    T x, y;
+    Point() : x(0), y(0) {}
+    Point(T _x, T _y) : x(_x), y(_y) {}
+    Point operator-(const Point &other) const {
+        return Point(this->x - other.x, this->y - other.y);
+    }
+    Point operator+(const Point &other) const {
+        return Point(this->x + other.x, this->y + other.y);
+    }
+    friend istream &operator>>(istream &in, Point &p) {
+        in >> p.x >> p.y;
+        return in;
+    }
+    ll operator^(const Point &other) const {
+        return ((ll)x * other.y) - ((ll)other.x * y);
+    }
+    friend T shoelace(const vector<Point> &a) { // returns double the area
+        int n = a.size();
+        ll sum = 0;
+        for(int i = 0; i + 1 < n; i++) {
+            sum += ((ll)a[i].x * a[i+1].y - (ll)a[i].y * a[i+1].x);
+        }
+        sum += ((ll)a[n-1].x * a[0].y - (ll)a[n-1].y * a[0].x);
+        return abs(sum);
+    }
+    friend double dist(const Point &a, const Point &b){
+        double dx = a.x-b.x, dy = a.y-b.y;
+        return sqrt(dx*dx + dy*dy);
+    }
+    friend double s_dist(const Point &a, const Point &b){
+        double dx = a.x-b.x, dy = a.y-b.y;
+        return (dx*dx + dy*dy);
+    }
+    friend ll mag(const Point &a){
+        return a.x*a.x+a.y*a.y;
+    }
+    friend bool ccw(const Point &a, const Point &b, const Point &c){
+       Point seg1 = b-a;
+       Point seg2 = c-a;
+       ll res = seg1^seg2;
+       return (res>0);
+    }
+    void debug(){
+        cout << "this point is (" << x << ", " << y << ")\n";
+    }
+    friend vi hull_ind(vector<Point> &p){
+        int _n = p.size();
+        int pivot = 0;
+        for(int i=1;i<_n;i++){
+            if(p[i].y<p[pivot].y){
+                pivot = i;
+            } else if(p[pivot].y==p[i].y && p[i].x<p[pivot].x){
+                pivot = i;
+            }
+        }
+        vi sorted;
+        map<pii,bool> seen;
+        seen[{p[pivot].x,p[pivot].y}] = true;
+        for(int i=0;i<_n;i++){
+            pii cur = {p[i].x,p[i].y};
+            if(!seen[cur]){
+                seen[cur] = true;
+                sorted.pb(i);
+            }
+        }
+        sort(sorted.begin(),sorted.end(),
+             [&](const int &i, const int &j){
+                    Point<T> x = p[i]-p[pivot];
+                    Point<T> y = p[j]-p[pivot];
+                    ll cross = x^y;
+                    if(cross>0){
+                        return true;
+                    } else if(cross<0){
+                        return false;
+                    } else{
+                        return (mag(x) < mag(y));
+                    }
+                }
+             );
+        stack<int> cand;
+        cand.push(pivot);
+        for(int i=0;i<sorted.size();i++){
+            int cur = sorted[i];
+            while(true){
+                if(cand.size()==1){
+                    cand.push(cur);
+                    break;
+                } else{
+                    int y = cand.top();
+                    cand.pop();
+                    int x = cand.top();
+                    if(ccw(p[x],p[y],p[cur])){
+                        cand.push(y);
+                        cand.push(cur);
+                        break;
+                    }
+                }
+            }
+        }
+        int num = cand.size();
+        vi res(num);
+        int j = num-1;
+        while(cand.size()){
+            res[j] = (cand.top());
+            cand.pop();
+            --j;
+        }
+        return res;
+    }
+    friend vector<pii> antipodal_ind(vi &hull, vector<Point> &point){
+        int n = hull.size();
+        vector<pii> res;
+        if(n==1){
+            res.pb({hull[0],hull[0]});
+            return res;
+        } else if(n==2){
+            res.pb({hull[0],hull[1]});
+            return res;
+        }
+        auto next = [&](int x){
+            return (x+1<n?x+1:x+1-n);
+        };
+        auto prev = [&](int x){
+            return (x-1>=0?x-1:x-1+n);
+        };
+        int p1 = 0, p2 = 0;
+        vector<bool> visited(n,false);
+        for(;p1<n;p1++){
+            Point base = point[hull[next(p1)]] - point[hull[p1]];
+            while(p1==p2 || p2==next(p1) || sign(base^(point[hull[p2]]-point[hull[prev(p2)]]))==sign(base^(point[hull[next(p2)]]-point[hull[p2]]))){
+                p2 = next(p2);
+            }
+            if(visited[p1]) continue;
+            visited[p1] = true;
+            res.pb({hull[p1],hull[p2]});
+            res.pb({hull[next(p1)],hull[p2]});
+            if((base^(point[hull[next(p2)]]-point[hull[p2]]))==0){
+                visited[p2] = true;
+                res.pb({hull[p1],hull[next(p2)]});
+                res.pb({hull[next(p1)],hull[next(p2)]});
+            }
+        }
+        return res;
+    }
+};

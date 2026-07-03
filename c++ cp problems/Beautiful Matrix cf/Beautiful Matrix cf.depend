@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1722478377 source:c:\c++ learning projects\beautiful matrix cf\main.cpp
+	<iostream>
+	<cstdlib>
+

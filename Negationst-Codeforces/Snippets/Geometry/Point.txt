@@ -1,0 +1,48 @@
+template<typename T>
+struct Point {
+    T x, y;
+    Point() : x(0), y(0) {}
+    Point(T _x, T _y) : x(_x), y(_y) {}
+    Point operator-(const Point &other) const {
+        return Point(this->x - other.x, this->y - other.y);
+    }
+    Point operator+(const Point &other) const {
+        return Point(this->x + other.x, this->y + other.y);
+    }
+    friend istream &operator>>(istream &in, Point &p) {
+        in >> p.x >> p.y;
+        return in;
+    }
+    ll operator^(const Point &other) const {
+        return ((ll)x * other.y) - ((ll)other.x * y);
+    }
+    friend T shoelace(const vector<Point> &a) { // returns double the area
+        int n = a.size();
+        ll sum = 0;
+        for(int i = 0; i + 1 < n; i++) {
+            sum += ((ll)a[i].x * a[i+1].y - (ll)a[i].y * a[i+1].x);
+        }
+        sum += ((ll)a[n-1].x * a[0].y - (ll)a[n-1].y * a[0].x);
+        return abs(sum);
+    }
+    friend double dist(const Point &a, const Point &b){
+        double dx = a.x-b.x, dy = a.y-b.y;
+        return sqrt(dx*dx + dy*dy);
+    }
+    friend double s_dist(const Point &a, const Point &b){
+        double dx = a.x-b.x, dy = a.y-b.y;
+        return (dx*dx + dy*dy);
+    }
+    friend ll mag(const Point &a){
+        return a.x*a.x+a.y*a.y;
+    }
+    friend bool ccw(const Point &a, const Point &b, const Point &c){
+       Point seg1 = b-a;
+       Point seg2 = c-a;
+       ll res = seg1^seg2;
+       return (res>0);
+    }
+    void debug(){
+        cout << "this point is (" << x << ", " << y << ")\n";
+    }
+};

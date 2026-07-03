@@ -1,0 +1,20 @@
+void solve(){
+    priority_queue<pii> pq;
+    vi distance(n,1LL<<60);
+    vector<bool> visited(n,false);
+    distance[0] = 0;
+    pq.push({0,0});
+    while(pq.size()){
+        int a = pq.top().second;
+        pq.pop();
+        if(visited[a]) continue;
+        visited[a] = true;
+        for(auto x : adj[a]){
+            int b = x.first,w=x.second;
+            if(distance[a]+w<distance[b]){
+                distance[b] = distance[a]+w;
+                pq.push({-distance[b],b});
+            }
+        }
+    }   
+}
