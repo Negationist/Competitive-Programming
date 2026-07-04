@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "chrono": "cpp",
+        "random": "cpp",
+        "limits": "cpp",
+        "valarray": "cpp",
+        "iomanip": "cpp",
+        "new": "cpp",
+        "tuple": "cpp",
+        "istream": "cpp",
+        "mutex": "cpp",
+        "ostream": "cpp",
+        "scoped_allocator": "cpp",
+        "functional": "cpp",
+        "charconv": "cpp"
+    }
+}

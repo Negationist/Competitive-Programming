@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1742611751 source:c:\c++ cf problems\e. lexicographically small enough cf\main.cpp
+	<bits/stdc++.h>
+	<ext/pb_ds/assoc_container.hpp>
+	<ext/pb_ds/tree_policy.hpp>
+

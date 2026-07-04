@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1726293624 source:c:\c++ cf problems\div 2 contest 3\main.cpp
+	<algorithm>
+	<array>
+	<bitset>
+	<cassert>
+	<chrono>
+	<cmath>
+	<cstdint>
+	<cstring>
+	<functional>
+	<iomanip>
+	<iostream>
+	<map>
+	<numeric>
+	<queue>
+	<random>
+	<set>
+	<vector>
+

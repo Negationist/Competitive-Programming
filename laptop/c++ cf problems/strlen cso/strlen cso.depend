@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1743526176 source:c:\c++ cf problems\strlen cso\main.c
+	<stdio.h>
+	<stdlib.h>
+

@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1739216981 source:c:\c++ cf problems\this solution may be 4000\main.cpp
+	<iostream>
+	<vector>
+	<unordered_set>
+	<unordered_map>
+	<queue>
+	<cmath>
+	<iomanip>
+
